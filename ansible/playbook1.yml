@@ -1,0 +1,73 @@
+---
+- name: installer apache sur le serveur web
+  hosts: web
+  gather_facts: false
+  become: yes
+  vars:
+    liste:
+      - diallo
+      - diallodedjan@gmail.com
+      - devops
+  tasks:
+    - name: installer nginx
+      package:
+        name: nginx
+        state: latest
+
+- name: installer apache sur le serveur web
+  hosts: web
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: installer apache
+      package:
+        name: nginx
+        state: latest
+    - name: recherche de .html
+      find:
+        paths: /usr/share/nginx/html
+        patterns: '*.html'
+      register: outpout
+    - name: copie et renomage en .orgi
+      copy:
+        src: /usr/share/nginx/html/index.html
+        dest: /usr/share/nginx/html/index.orgi
+        remote_src: yes
+    - name: edition du dossier /var/www/html/index.html
+      copy:
+        content: "{{ liste }}"
+        dest: /var/www/html/index.html
+        remote_src: yes
+      notify: reload nginx
+  handlers:
+    - name: redemarrer nginx
+      service:
+        name: nginx
+        state: reloaded
+- name: installer wordpress sur le serveur web
+  hosts: web
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: installer wordpress
+      package:
+        name: wordpress
+        state: latest
+
+- name: installer mariabdb sur le serveur db
+  hosts: db
+  gather_facts: false
+  become: yes
+  tasks:
+    - name: installer mariadb-server
+      package:
+        name: mariadb-server
+        state: present
+      notify: start mariadb
+  handlers:
+    - name: start mariadb-server
+      service:
+        name: mariadb
+        state: restarted
+
+
