@@ -14,11 +14,6 @@
         name: nginx
         state: latest
 
-- name: installer apache sur le serveur web
-  hosts: web
-  gather_facts: false
-  become: yes
-  tasks:
     - name: installer apache
       package:
         name: nginx
@@ -33,14 +28,14 @@
         src: /usr/share/nginx/html/index.html
         dest: /usr/share/nginx/html/index.orgi
         remote_src: yes
-    - name: edition du dossier /var/www/html/index.html
+    - name: edition du dossier
       copy:
         content: "{{ liste }}"
         dest: /var/www/html/index.html
         remote_src: yes
       notify: reload nginx
   handlers:
-    - name: redemarrer nginx
+    - name: reload ngnix
       service:
         name: nginx
         state: reloaded
@@ -69,5 +64,3 @@
       service:
         name: mariadb
         state: restarted
-
-
