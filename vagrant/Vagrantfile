@@ -13,14 +13,20 @@ Vagrant.configure("2") do |config|
 
   config.vm.define "host1" do |host1|
     host1.vm.box = "generic/ubuntu2004"
-    host1.vm.hostname = "ubuntu20"
+    host1.vm.hostname = "client-ubuntu-1"
     host1.vm.network :private_network, ip: "192.168.201.11"
   end
 
   config.vm.define "host2" do |host2|
-    host2.vm.box = "generic/centos8"
-    host2.vm.hostname = "centos8"
+    host2.vm.box = "generic/ubuntu2004"
+    host2.vm.hostname = "client-ubuntu-2"
     host2.vm.network :private_network, ip: "192.168.201.12"
+  end
+
+  config.vm.define "host3" do |host3|
+    host3.vm.box = "generic/centos8"
+    host3.vm.hostname = "client-centos8"
+    host3.vm.network :private_network, ip: "192.168.201.13"
   end
 
   config.vm.provision "shell", inline: <<-SHELL
