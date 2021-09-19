@@ -1,0 +1,18 @@
+---
+- name: installer apache, nginx
+  hosts: test
+  gather_facts: false
+  become: yes
+  vars:
+    liste:
+      - diallo
+      - diallodedjan@gmail.com
+      - devops
+  tasks:
+    - name: installer nginx, apache
+      package:
+        name: 
+          - nginx
+        state: present
+
+    

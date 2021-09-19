@@ -1,0 +1,33 @@
+https://www.middlewareinventory.com/blog/ansible-ad-hoc-commands/#Example_18_ansible_ad_hoc_command_to_reboot_the_system
+
+#Example 18: ansible ad hoc command to reboot the system 
+ansible all -i inventory -b -B 1 -P 0 -m shell -a "sleep 5 && reboot"
+
+#ansible testserver -m service -a "name=httpd" -i ansible_hosts -u vagrant
+ansible testserver -m service -a "name=httpd" -i ansible_hosts -u vagrant
+
+#ansible ad hoc command to copy file – Local to remote
+ansible testserver -m copy -a "src=~/Downloads/index.html dest=/var/www/html owner=apache group=apache mode=0644"
+
+#ansible ad hoc command to copy directory – Local to remote
+ansible testserver -m copy -a "src=~/Downloads/logos dest=/var/www/html/ owner=apache group=apache mode=0644 " -i ansible_hosts -b
+
+
+#ad hoc command to stop, start, restart service – Ansible SystemD
+ansible webservers  -m systemd -a "name=nginx state=reloaded" -i prod-ansible-hosts
+ansible webservers -m systemd -a "name=nginx state=restarted" -i prod-ansible-hosts
+ansible webservers -m systemd -a "name=nginx state=started" -i prod-ansible-hosts
+ansible webservers -m systemd -a "name=nginx state=stopped" -i prod-ansible-hosts
+
+#Get the Hostname and Version of  remote servers with UNAME
+ansible web -m command -a "uname -a" -i inventaire
+---
+  - name: Check the remote host Hostname, Version, Distribution with UNAME
+    hosts: testservers
+    tasks:
+      - name: Execute the UNAME command
+        register: unameout
+        command: "uname -a"
+
+      - debug:
+          var: unameout.stdout_lines
