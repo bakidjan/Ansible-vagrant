@@ -1,0 +1,36 @@
+- name: CI Chain
+  hosts: ci
+  gather_facts: true
+  become: yes
+  vars:
+
+  tasks:
+    - name: install git on client1
+      package:
+         name: git
+         state: present
+
+    - name: Clone Repo
+      ansible.builtin.git:
+        repo: 'https://github.com/dviniere/student-list.git'
+        dest: /home/vagrant/student-list
+      tags: clone
+
+    - name: Build Image
+      command: docker build -t student_age /home/vagrant/student-list/simple_api
+      tags: build
+
+    - name: Test Image
+      block:
+        - command: docker run -d --name student_age -p 5000:5000 -v /home/vagrant/student-list/simple_api/student_age.json:/data/student_age.json student_age
+        - command: curl -u toto:python -X GET http://localhost:5000/pozos/api/v1.0/get_student_ages
+        - command: docker stop student_age
+        - command: docker rm student_age
+      tags: test
+
+    - name: Deliver Image
+      block:
+        - command: docker login -u diallo247 -p 26addf12-4ddc-403a-b821-81c15fda9e33
+        - command: docker tag student_age diallo247/student_age
+        - command: docker push diallo247/student_age
+      tags: delivery

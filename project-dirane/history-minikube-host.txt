@@ -1,0 +1,26 @@
+1  ls
+    2  pwd
+    3  cd /home/vagrant/
+    4  ls
+    5  ls -a
+    6  kubectl configview
+    7  kubectl config view
+    8  minikube start --driver=none
+    9  ls -a
+   10  kubectl get ports
+   11  kubectl get port
+   12  cd
+   13  kubectl get pod
+   14  kubectl get pods
+   15  kubectl get svc
+   16  kubectl get pods
+   17  kubectl get deployements
+   18  kubectl get deployement
+   19  kubectl get deployment
+   20  kubectl get svc -n pozos
+   21  ip a
+   22  clear
+   23  kubectl get svc -n pozos
+   24  kubectl config view
+   25  kubectl get pods
+   26  kubectl get svc -n pozos
