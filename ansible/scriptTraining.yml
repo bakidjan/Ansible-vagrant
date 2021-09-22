@@ -77,3 +77,9 @@ ansible testservers -a "touch /tmp/testfile  creates=/tmp/testfile" -i ansible_h
       args:
          removes: "/tmp/latestfile"
       register: removeif
+
+[vagrant@minikube ~]$ kubectl get svc -n pozos
+NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+api       ClusterIP   10.108.209.177   <none>        5000/TCP       12m
+website   NodePort    10.101.183.47    <none>        80:30926/TCP   12m
+[vagrant@minikube ~]$
