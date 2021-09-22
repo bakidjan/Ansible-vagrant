@@ -1,0 +1,136 @@
+[vagrant@minikube ~]$ kubectl get svc -n pozos
+NAME      TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+api       ClusterIP   10.108.209.177   <none>        5000/TCP       12m
+website   NodePort    10.101.183.47    <none>        80:30926/TCP   12m
+[vagrant@minikube ~]$
+
+
+@ansible
+ssh-keygen (entrer puis un "pass de 5+ char")
+
+ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.99.11
+ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.99.20
+
+vim inventory
+----------------------
+
+install_docker.yml
+[ci]
+client1 ansible_host=192.168.99.11 ansible_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+[cd]
+minikube ansible_host=192.168.99.20 ansible_user=vagrant ansible_ssh_private_key_file=~/.ssh/id_rsa
+
+
+
+
+
+
+# cd du practice cd chain deploy
+- name: CD Chain v1
+  hosts: cd
+  gather_facts: true
+  become: yes
+  vars:
+
+  tasks:
+    - name: Gather Source
+      block:
+      - name: Install Git
+        package:
+          name: git
+          state: present
+      - name: Clone Repo
+        ansible.builtin.git:
+          repo: 'https://github.com/dviniere/student-list.git'
+          dest: /home/vagrant/student-list
+      tags: source
+
+    - name: Deploy solution
+      command: kubectl --kubeconfig /home/vagrant/.kube/config apply -f /home/vagrant/student-list/manifest.yaml
+---------------------------------------------------------------------------------------------------------------------------------
+# CI
+- name: CI Chain
+  hosts: ci
+  gather_facts: true
+  become: yes
+  vars:
+ 
+  tasks:
+    - name: install git on client1
+      package:
+         name: git
+         state: present
+      
+    - name: Clone Repo
+      ansible.builtin.git:
+        repo: 'https://github.com/dviniere/student-list.git'
+        dest: /home/vagrant/student-list
+      tags: clone
+      
+    - name: Build Image
+      command: docker build -t student_age /home/vagrant/student-list/simple_api
+      tags: build
+      
+    - name: Test Image
+      block:
+        - command: docker run -d --name student_age -p 5000:5000 -v /home/vagrant/student-list/simple_api/student_age.json:/data/student_age.json student_age
+        - command: curl -u toto:python -X GET http://localhost:5000/pozos/api/v1.0/get_student_ages    
+        - command: docker stop student_age
+        - command: docker rm student_age
+      tags: test
+      
+    - name: Deliver Image
+      block:
+        - command: docker login -u diallo247 -p "ici le token de dockerhub"
+        - command: docker tag student_age dvinere/student_age
+        - command: docker push diallo247/student_age
+      tags: delivery
+------------------------------------------------------------------------------------------------------------------------------------------------
+
+CD chain v2
+- name: CD Chain
+  hosts: cd
+  gather_facts: true
+  become: yes
+  vars:
+ 
+  tasks:
+    - name: Gather Source
+      block:
+      - name: Install Git
+        package:
+          name: git
+          state: present
+      - name: Clone Repo
+        ansible.builtin.git:
+          repo: 'https://github.com/dviniere/student-list.git'
+          dest: /home/vagrant/student-list
+      tags: source    
+     
+    - name: Deploy solution
+      command: kubectl --kubeconfig /home/vagrant/.kube/config apply -f /home/vagrant/student-list/manifest.yaml
+
+    - name: Clean Up
+      block:
+        - name: Remove source
+          command: rm -rf /home/vagrant/student-list
+      tags: clean 
+      
+    - name: Clean Deployment
+      block:
+      - name: Install Git
+        package:
+          name: git
+          state: present
+      - name: Clone Repo
+        ansible.builtin.git:
+          repo: 'https://github.com/dviniere/student-list.git'
+          dest: /home/vagrant/student-list
+      - name: Clean Deployment
+        command: kubectl --kubeconfig /home/vagrant/.kube/config delete -f /home/vagrant/student-list/manifest.yaml
+      - name: Remove source
+        command: rm -rf /home/vagrant/student-list
+      tags: 
+        - never
+        - cleandeploy

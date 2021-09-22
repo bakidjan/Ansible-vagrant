@@ -1,0 +1,103 @@
+133 docker pull joxit/docker-registry-ui:latest
+134 docker pull joxit/docker-registry-ui:static
+135 vim simple.yml
+136 docker-compose -f simple.yml up -d
+137 docker tag joxit/docker-registry-ui:static localhost:8080/joxit/docker-registry-ui:static
+138 docker tag joxit/docker-registry-ui:static localhost:8080/joxit/docker-registry-ui:0.3
+139 docker tag joxit/docker-registry-ui:static localhost:8080/joxit/docker-registry-ui:0.3.0
+140 docker tag joxit/docker-registry-ui:static localhost:8080/joxit/docker-registry-ui:0.3.0-static
+141 docker tag joxit/docker-registry-ui:static localhost:8080/joxit/docker-registry-ui:0.3-static
+142 docker push localhost:8080/joxit/docker-registry-ui
+143 docker tag registry:2.6.2 localhost:8080/registry:latest
+144 docker tag registry:2.6.2 localhost:8080/registry:2.6.2
+145 docker tag registry:2.6.2 localhost:8080/registry:2.6
+146 docker tag registry:2.6.2 localhost:8080/registry:2.6.0
+147 docker tag registry:2.6.2 localhost:8080/registry:2
+148 docker push localhost:8080/registry
+149 curl localhost:8080
+150 cat simple.yml
+151 docker tag student_age localhost:8080/student_age
+152 docker push localhost:8080/student_age
+153 docker tag student_age localhost:8080/student_age:v1
+154 docker push localhost:8080/student_age:v1
+155 docker-compose down
+156 rm simple.yml
+157 vim simple.yml
+158 docker-compose -f simple.yml up -d
+159 ls
+160 vim simple.yml
+161 docker-compose -f simple.yml up -d
+162 vim simple.yml
+163 docker-compose -f simple.yml up -d
+164 history
+
+
+
+version: '3'
+services:
+registry:
+image: registry:2
+volumes:
+- ./registry-data:/var/lib/registry
+
+
+
+ui:
+1  ansible --version
+    2  sudo pip3 install ansible
+    3  pip3 install ansible
+    4  ansible --version
+    5  ansible-galaxy install geerlingguy.pip
+    6  ansible-galaxy install geerlingguy.docker
+    7  ssh-keygen
+    8  ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.99.11
+    9  ssh-copy-id -i /home/vagrant/.ssh/id_rsa.pub vagrant@192.168.99.20
+   10  clear
+   11  sudo vi inventory
+   12  cat inventory
+   13  sudo vi inventory
+   14  docker --version
+   15  sudo vi install_docker.yml
+   16  ansible-playbook -i inventory install_docker.yml
+   17  sudo vi ci.yml
+   18  ansible-playbook -i inventory ci.yml
+   19  sudo vi ci.yml
+   20  ansible-playbook -i inventory ci.yml
+   21  sudo vi ci.yml
+   22  ansible-playbook -i inventory ci.yml
+   23  sudo vi ci.yml
+   24  ansible-playbook -i inventory ci.yml
+   25  sudo vi ci.yml
+   26  ansible-playbook -i inventory ci.yml
+   27  sudo vi ci.yml
+   28  ansible-playbook -i inventory ci.yml
+   29  sudo vi ci.yml
+   30  ansible-playbook -i inventory ci.yml
+   31  sudo vi cd.yml
+   32  ansible-playbook -i inventory cd.yml
+   33  sudo vi cd.yml
+   34  sudo cp cd.yml cd.yml.v1
+   35  ls
+   36  sudo vi cd.yml
+   37  sudo nano cd.yml
+   38  sudo yum install -y nano
+   39  sudo nano cd.yml
+   41  ansible-playbook -i inventory cd.yml
+   42  sudo vi cd.yml
+   43  ansible-playbook -i inventory cd.yml
+   44  sudo vi cd.yml
+   45  ansible-playbook -i inventory cd.yml
+   46  ls
+   47  mkdir webapp
+   48  cd webapp/
+   49  sudo vi install_docker.yml
+   50  vi inventaire
+   51  ansible-playbook -i inventaire install_docker.yml
+   52  sudo vi install_docker.yml
+   53  ansible-playbook -i inventaire install_docker.yml
+   54  vi ci.yml
+   55  ansible-playbook -i inventaire ci.yml
+   56  vi cd.yml
+   57  ansible-playbook -i inventaire cd.yml
+   58  cd
+   59  sudo rm -Rf webapp
