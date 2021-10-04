@@ -10,13 +10,13 @@ Deployer le projet visages animés avec ansible
 - [web]
 - host1 ansible_host=192.168.201.11 ansible_user=vagrant ansible_password=vagarnt
 
-[requred tools on ansible host :]
-- sudo apt install ansible
+[requred tools on ansible host ]
+- sudo apt install ansible <br>
 [for copy the ssh-key to remote host]
-- sudo apt install sshpass
+- sudo apt install sshpass <br>
 [generate ssh key and copy public key to remote host]
-- sudo ssh-keygen
-- sudo ansible ssh-copy-id vagrant@192.168.201.11
+- sudo ssh-keygen <br>
+- sudo ansible ssh-copy-id vagrant@192.168.201.11 <br>
 [ping to all to remote host]
 - ansible all -m ping
 
