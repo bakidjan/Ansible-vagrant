@@ -4,8 +4,9 @@ Deployer le projet visages animés avec ansible
 ![project](https://github.com/bakidjan/PL2_AI/blob/master/visagesAnimesjs/visagesAnimes.JPG)
 ------------
 [install vagrant and up it for deploy hosts on virtualbox]<br>
+```
 vagrant up
-
+```
 - [first, modify /etc/ansible/hosts file to add the remote host @IP]<br>
 
 ```
