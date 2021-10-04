@@ -7,7 +7,7 @@ Deployer le projet visages animés avec ansible
 vagrant up
 
 - [first, modify /etc/ansible/hosts file to add the remote host @IP]<br>
-[web]
+[web]<br>
 host1 ansible_host=192.168.201.11 ansible_user=vagrant ansible_password=vagarnt
 
 - [requred tools on ansible host ]<br>
