@@ -11,6 +11,9 @@ vagrant up
 host1 ansible_host=192.168.201.11 ansible_user=vagrant ansible_password=vagarnt
 
 - [requred tools on ansible host ]<br>
+```
+sudo apt install ansible 
+```
 sudo apt install ansible 
 - [for copy the ssh-key to remote host]<br>
 sudo apt install sshpass
