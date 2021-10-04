@@ -1,0 +1,44 @@
+---
+- hosts: web
+  become: yes
+  tasks:
+    - name: ensure nginx is at the latest version
+      package: 
+        name: nginx 
+        state: latest
+    - name: start nginx
+      service:
+        name: nginx
+        state: started
+
+    - name: Install git
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+
+    - name: remove nginx web directory
+      file:
+        path: /var/www/html/index.nginx-debian.html
+        state: absent
+        remote_src: yes
+
+    - name: clone git depot for api
+      git:
+        repo: https://github.com/bakidjan/PL2_AI.git
+        dest: /var/www/html
+           
+    - name: copy visagesAnime.html to remote host
+      copy:
+        src: /var/www/html/visagesAnimesjs/visagesAnime.html
+        dest: /var/www/html/index.nginx-debian.html
+        remote_src: yes
+
+    - name: copy js file to remote host
+      copy:
+        src: /var/www/html/visagesAnimesjs/js
+        dest: /var/www/html/
+        remote_src: yes
+
+    - name: remove unused files
+      command: rm -rf /var/www/html/lesPointsAleatoiresMe
