@@ -11,7 +11,7 @@ vagrant up
 
 ```
 [web]
-host1 ansible_host=192.168.201.11 ansible_user=vagrant ansible_password=vagarnt
+host1 ansible_host=192.168.201.11 ansible_user=vagrant ansible_password=vagrant
  
 ```
 
@@ -26,7 +26,7 @@ sudo apt install sshpass
 - [generate ssh key and copy public key to remote host]<br>
 ```
 sudo ssh-keygen
-sudo ansible ssh-copy-id vagrant@192.168.201.11
+sudo ssh-copy-id vagrant@192.168.201.11
 ```
 - [ping to all to remote host]<br>
 ```
